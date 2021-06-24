@@ -1,6 +1,7 @@
 import json
 import requests
 import os
+from get_recent_played import ms_to_min_sec
 from math import *
 from tqdm import tqdm
 from PIL import Image
@@ -34,13 +35,14 @@ def gen_text_img():
     except FileExistsError:
         print(f"Directory img/{today} already exists.")
 
-    post = f"Songs on {today}\n"
+    
     total_duration = 0
     imgs = []
 
     cnt = 0
+    artists = set()
     for song in tqdm(data):
-        post += f'{song["track"]["artists"][0]["name"]} - {song["track"]["name"]}\n'
+        artists.add(song["track"]["artists"][0]["name"])
         total_duration += song["track"]["duration_ms"]
         url = song["track"]["album"]["images"][1]["url"] # 0: 640, 1: 300, 2: 64
         cover = Image.open(requests.get(url, stream=True).raw)
@@ -51,11 +53,18 @@ def gen_text_img():
             imgs = []
 
     if len(imgs) != 0:
+        cnt += 1
         create_n_by_n_img(imgs, ceil(sqrt(len(imgs)))).save(f"img/{today}/{cnt}.png")
 
+    post = f"Music on {today}\nTotal Duration: {ms_to_min_sec(total_duration)}\n"
+    for artist in artists:
+        if len(post) + len(artist) <= 240:            
+            post += f"{artist}\n"
     with open(f"post/{today}.txt", "w", encoding="utf-8") as file:
         file.write(post)
         print(f"post/{today}.txt saved.")
+    
+    return post, today
 
 if __name__ == '__main__':
     gen_text_img()
