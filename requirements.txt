@@ -1,0 +1,9 @@
+rich
+colour
+tqdm
+requests
+pytz
+spotipy
+json
+datetime
+pillow

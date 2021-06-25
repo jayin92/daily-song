@@ -2,3 +2,7 @@
 .cache
 recent_played.json
 __pycache__
+img/*
+post/*
+
+!.gitkeep
