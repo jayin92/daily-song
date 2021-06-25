@@ -6,5 +6,5 @@ else
 touch .cache
 touch spotify_cred.json
 echo '{"access_token": "${2}", "token_type": "${3}", "expires_in": ${4}, "scope": "${5}", "expires_at": ${6}, "refresh_token": "${7}"}' > .cache
-echo '{"SPOTIPY_CLIENT_ID": "${8}", "SPOTIPY_CLIENT_SECRET": "${9}", "SPOTIFY_REDIRECT_URI": "${10}"}'
+echo '{"SPOTIPY_CLIENT_ID": "${8}", "SPOTIPY_CLIENT_SECRET": "${9}", "SPOTIFY_REDIRECT_URI": "${10}"}' > spotify_cred.json
 fi
