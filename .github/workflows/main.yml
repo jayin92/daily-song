@@ -26,8 +26,8 @@ jobs:
           python-version: 3.8
       - name: add cred file
         run: |
-          sh gen_cred_file.sh twitter ${{secrets.TWI_CONSUMER_KEY}} ${{secrets.TWI_CONSUMER_SECRET}} ${{secrets.TWI_ACCESS_TOKEN}} ${{secrets.TWI_ACCESS_TOKEN_SECRET}}
-          sh gen_cred_file.sh spotify ${{secrets.SPO_ACCESS_TOKEN}} ${{secrets.SPO_TOKEN_TYPE}} ${{secrets.SPO_EXPIRES_IN}} ${{secrets.SPO_SCOPE}} ${{secrets.SPO_EXPIRES_AT}} ${{secrets.SPO_REFRESH_TOKEN}} ${{secrets.SPOTIPY_CLIENT_ID}} ${{secrets.SPOTIPY_CLIENT_SECRET}} ${{secrets.SPOTIFY_REDIRECT_URI}}
+          sh gen_cred_file.sh twitter ${{ secrets.TWI_CONSUMER_KEY }} ${{ secrets.TWI_CONSUMER_SECRET }} ${{ secrets.TWI_ACCESS_TOKEN }} ${{ secrets.TWI_ACCESS_TOKEN_SECRET }}
+          sh gen_cred_file.sh spotify ${{ secrets.SPO_ACCESS_TOKEN }} ${{ secrets.SPO_TOKEN_TYPE }} ${{ secrets.SPO_EXPIRES_IN }} ${{ secrets.SPO_SCOPE }} ${{ secrets.SPO_EXPIRES_AT }} ${{ secrets.SPO_REFRESH_TOKEN }} ${{ secrets.SPOTIPY_CLIENT_ID }} ${{ secrets.SPOTIPY_CLIENT_SECRET }} ${{ secrets.SPOTIFY_REDIRECT_URI }}
       - name: install requirement
         run: pip insatll -r "requirements.txt"
       # Runs a single command using the runners shell
