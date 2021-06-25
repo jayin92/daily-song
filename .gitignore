@@ -1,3 +1,4 @@
 *_cred.*
 .cache
 recent_played.json
+__pycache__
