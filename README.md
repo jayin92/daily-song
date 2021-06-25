@@ -15,5 +15,4 @@ See what you listen today.
     "SPOTIFY_REDIRECT_URI": "http://localhost:8080",
 }
 ```
-
-3. Run `main.py`
+5. Run `main.py`
