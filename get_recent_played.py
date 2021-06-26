@@ -41,15 +41,17 @@ def filter_date(d) -> list:
     gradient = list(green.range_to(Color("red"), 100))
     res = []
     total_duration = 0
+    cnt_songs = 0
     for song in d:
         song_dt = utc.localize(datetime.fromisoformat(
             song["played_at"][:-1])).astimezone(tz)
         if song_dt.date() == today:
             total_duration += song["track"]["duration_ms"]
+            cnt_songs += 1
     table = Table(
         title=f"[bold u]Songs on {str(today)}[/bold u]", box=box.MINIMAL_DOUBLE_HEAD, show_footer=True)
     table.add_column("Artists", justify="left",
-                     style="bright_cyan", footer=f"[bold bright_cyan]# of Songs: {len(d)}[/bold bright_cyan]")
+                     style="bright_cyan", footer=f"[bold bright_cyan]# of Songs: {cnt_songs}[/bold bright_cyan]")
 
     table.add_column("Song", justify="left", style="turquoise2")
 
