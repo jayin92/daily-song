@@ -1,0 +1,35 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+# Controls when the workflow will run
+on:
+  schedule:
+    - cron: "47 15 * * *"
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - name: checkout repo content
+        uses: actions/checkout@v2
+      
+      - name: setup python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+      - name: add cred file
+        run: |
+          sh gen_cred_file.sh twitter ${{secrets.TWI_CONSUMER_KEY}} ${{secrets.TWI_CONSUMER_SECRET}} ${{secrets.TWI_ACCESS_TOKEN}} ${{secrets.TWI_ACCESS_TOKEN_SECRET}}
+          sh gen_cred_file.sh spotify ${{secrets.SPO_ACCESS_TOKEN}} ${{secrets.SPO_TOKEN_TYPE}} ${{secrets.SPO_EXPIRES_IN}} ${{secrets.SPO_SCOPE}} ${{secrets.SPO_EXPIRES_AT}} ${{secrets.SPO_REFRESH_TOKEN}} ${{secrets.SPOTIPY_CLIENT_ID}} ${{secrets.SPOTIPY_CLIENT_SECRET}} ${{secrets.SPOTIFY_REDIRECT_URI}}
+      - name: install requirement
+        run: pip insatll -r "requirements.txt"
+      # Runs a single command using the runners shell
+      - name: Run main program
+        run: python main.py
