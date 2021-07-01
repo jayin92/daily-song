@@ -4,5 +4,6 @@ recent_played.json
 __pycache__
 img/*
 post/*
+*.bat
 
 !.gitkeep

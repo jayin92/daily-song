@@ -8,3 +8,4 @@ json
 datetime
 pillow
 tweepy
+python-telegram-bot

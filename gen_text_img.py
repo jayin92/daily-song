@@ -41,8 +41,13 @@ def gen_text_img():
 
     cnt = 0
     artists = set()
+    artists_title = ""
+    print("Generating album photos...")
     for song in tqdm(data):
-        artists.add(song["track"]["artists"][0]["name"])
+        artist = song["track"]["artists"][0]["name"]
+        song_title = song["track"]["name"]
+        artists_title += f"{artist} - {song_title}\n"
+        artists.add(artist)
         total_duration += song["track"]["duration_ms"]
         url = song["track"]["album"]["images"][1]["url"] # 0: 640, 1: 300, 2: 64
         cover = Image.open(requests.get(url, stream=True).raw)
@@ -56,15 +61,25 @@ def gen_text_img():
         cnt += 1
         create_n_by_n_img(imgs, ceil(sqrt(len(imgs)))).save(f"img/{today}/{cnt}.png")
 
-    post = f"Music on {today}\nTotal Duration: {ms_to_min_sec(total_duration)}\n"
+    tweet = f"Music on {today}\nTotal Duration: {ms_to_min_sec(total_duration)}\n\n"
+
+    artists_title = artists_title.replace("<", "《")
+    artists_title = artists_title.replace(">", "》")
+    telegram_post = f"<b><ins>Music on {today}</ins></b>\nTotal Duration: {ms_to_min_sec(total_duration)}\n\n" + artists_title
+
+
     for artist in artists:
-        if len(post) + len(artist) <= 240:            
-            post += f"{artist}\n"
-    with open(f"post/{today}.txt", "w", encoding="utf-8") as file:
-        file.write(post)
-        print(f"post/{today}.txt saved.")
+        if len(tweet) + len(artist) <= 240:            
+            tweet += f"{artist}\n"
+    with open(f"post/twitter/{today}.txt", "w", encoding="utf-8") as file:
+        file.write(tweet)
+        print(f"post/twitter/{today}.txt saved.")
     
-    return post, today
+    with open(f'post/telegram/{today}.txt', "w", encoding="utf-8") as file:
+        file.write(telegram_post)
+        print(f"post/telegram/{today}.txt saved.")
+    
+    return tweet, telegram_post, today
 
 if __name__ == '__main__':
     gen_text_img()
